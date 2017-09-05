@@ -57,13 +57,22 @@ const initComment ={
 // 	}
 // }
 // 
-function postsByCategory(state={}, action){
+// function postsByCategory(state={}, action){
+// 	switch(action.type){
+// 		case RECEIVE_POSTS:
+// 			return {
+// 				...state,
+// 				[action.category]: action.posts
+// 			}
+// 		default:
+// 			return state
+// 	}
+// }
+
+function posts(state=[], action){
 	switch(action.type){
 		case RECEIVE_POSTS:
-			return {
-				...state,
-				[action.category]: action.posts
-			}
+			return action.posts
 		default:
 			return state
 	}
@@ -73,5 +82,5 @@ function postsByCategory(state={}, action){
 export default combineReducers({
 	selectCategory,
 	categories,
-	postsByCategory
+	posts
 })

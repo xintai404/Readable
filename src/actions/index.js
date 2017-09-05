@@ -11,19 +11,40 @@ export const selectCategory = selectCategory => {
 	}
 }
 
-export const receivePosts = (category,posts) => {
+export const receivePosts = (posts) => {
 	return {
 		type: RECEIVE_POSTS,
-		category,
 		posts
 	}
 }
 
+export const setCategories = categories => {
+	return {
+		type: SET_CATEGORIES,
+		categories
+	}
+}
+
+export const fetchCategories = () => (dispatch) => {
+
+	return api.getCategories()
+			.then(function(data){
+				let categories = data.categories.reduce((arr, item) => {
+					arr.push(item.name)
+					return arr
+				},[])
+				dispatch(setCategories(categories))
+			})
+}
+
+export const fetchAllPosts = () => (dispatch) => {
+	return api.getAllPosts()
+			.then(data => dispatch(receivePosts( data)))
+}
 
 export const fetchPosts = category => (dispatch) => {
-	console.log('gggg')
 	return api.getPostsByCategory(category)
-		.then(data => dispatch(receivePosts(category, data)))
+		.then(data => dispatch(receivePosts( data)))
 	
 }
 

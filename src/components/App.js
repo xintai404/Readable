@@ -1,45 +1,58 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {fetchPosts} from '../actions'
+import {fetchAllPosts, fetchCategories} from '../actions'
 
 
 class App extends Component {
-  constructor(){
-    super()
-    this.categories = ['react', 'redux', 'udacity']
-  }
+    constructor(){
+        super()
+    }
 
   componentDidMount(){
     const {dispatch} = this.props
-    if(this.categories){
-      Promise.all(this.categories.map(category=>{
-        return dispatch(fetchPosts(category))
-      }))
-    }
+        // if(this.categories){
+        //   Promise.all(this.categories.map(category=>{
+        //     return dispatch(fetchPosts(category))
+        //   }))
+        // }
+        
+    dispatch(fetchCategories())
+    dispatch(fetchAllPosts())
   }
 
   render() {
-    const {selectCategory, postsByCategory} = this.props;
+    const {categories, posts} = this.props;
 
     return (
-      <div className="content">
-        <h3>Category</h3>
-        <div className="category-list">
-          {Object.keys(postsByCategory).map(key => (
-            <ul key={key}>
-              {key}
-              {postsByCategory[key].map(post => (
+        <div className="content">
+            <h3>Categories</h3>
+            <div className="categories-list">
+                <ul className="">
+                    {categories.map((category,index) => (
+                        <li key={index}>
+                            <p> {category} </p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-                <li key={post.id}>
-                  <p> {post.id} </p>
-                  <span>{post.title} -- {post.voteScore}</span>
-                </li>
-              ))}
+            <h3>Posts</h3>
+            <div className="posts-list">
+                <span>Order By: </span>
+                <select onChange={e => console.log(e.target.value)}>
+                    <option>voteScore</option>
+                    <option>timestamp</option>
+                </select>
+                {posts.map(post => (
+                    <ul key={post.id}>
+                        <li key={post.id}>
 
-            </ul>
-          ))}
+                            <span>{post.title} -- {post.voteScore}</span>
+                        </li>
+                    </ul>
+                ))}
+            </div>
         </div>
-      </div>
     )
   }
 }
@@ -47,11 +60,11 @@ class App extends Component {
 
 const mapStateToProps = state => {
 
-  const {postsByCategory, selectCategory} = state
+  const {posts, categories, selectCategory} = state
   
 
 
-  return {selectCategory, postsByCategory}
+  return {selectCategory, categories, posts}
 }
 
 export default connect(
