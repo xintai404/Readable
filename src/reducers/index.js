@@ -3,7 +3,8 @@ import {combineReducers} from 'redux'
 import {
 	SELECT_CATEGORY,
 	SET_CATEGORIES,
-	RECEIVE_POSTS
+	RECEIVE_POSTS,
+	SORT_POSTS,
 } from '../actions'
 
 function selectCategory(state="all", action){
@@ -73,6 +74,14 @@ function posts(state=[], action){
 	switch(action.type){
 		case RECEIVE_POSTS:
 			return action.posts
+
+		case SORT_POSTS:
+			let order = action.order
+			let newState = state.slice()
+			return newState.sort((a,b) => {
+				return a[order] - b[order]
+			})
+
 		default:
 			return state
 	}

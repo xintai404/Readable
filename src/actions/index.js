@@ -3,6 +3,7 @@ import * as api from '../utils/api'
 export const SELECT_CATEGORY ='SELECT_CATEGORY'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const SET_CATEGORIES = 'SET_CATEGORIES'
+export const SORT_POSTS = 'SORT_POSTS'
 
 export const selectCategory = selectCategory => {
 	return {
@@ -46,6 +47,13 @@ export const fetchPosts = category => (dispatch) => {
 	return api.getPostsByCategory(category)
 		.then(data => dispatch(receivePosts( data)))
 	
+}
+
+export const orderPosts = order => {
+	return {
+		type: SORT_POSTS,
+		order
+	}
 }
 
 

@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {fetchAllPosts, fetchCategories} from '../actions'
+import {fetchAllPosts, fetchCategories, orderPosts} from '../actions'
 
 
 class App extends Component {
-    constructor(){
+    constructor(props){
         super()
+        this.dispatch = props.dispatch
     }
 
   componentDidMount(){
-    const {dispatch} = this.props
-        // if(this.categories){
-        //   Promise.all(this.categories.map(category=>{
-        //     return dispatch(fetchPosts(category))
-        //   }))
-        // }
-        
-    dispatch(fetchCategories())
-    dispatch(fetchAllPosts())
+    
+    this.dispatch(fetchCategories())
+    this.dispatch(fetchAllPosts())
+  }
+
+  onSortPosts(order){
+    console.log('order by ', order)
+    this.dispatch(orderPosts(order))
   }
 
   render() {
@@ -39,18 +39,19 @@ class App extends Component {
             <h3>Posts</h3>
             <div className="posts-list">
                 <span>Order By: </span>
-                <select onChange={e => console.log(e.target.value)}>
-                    <option>voteScore</option>
-                    <option>timestamp</option>
+                <select onChange={e => this.onSortPosts(e.target.value)} >
+                    <option value="voteScore" >voteScore</option>
+                    <option value="timestamp">timestamp</option>
                 </select>
-                {posts.map(post => (
-                    <ul key={post.id}>
-                        <li key={post.id}>
-
+                <ul className="">
+                    {posts.map(post => (
+                        <li key={post.id} >
                             <span>{post.title} -- {post.voteScore}</span>
+                            <button className="">Edit </button>
+                            <button className="">Delete</button>
                         </li>
-                    </ul>
-                ))}
+                    ))}
+                </ul>
             </div>
         </div>
     )
@@ -59,11 +60,7 @@ class App extends Component {
 
 
 const mapStateToProps = state => {
-
   const {posts, categories, selectCategory} = state
-  
-
-
   return {selectCategory, categories, posts}
 }
 
