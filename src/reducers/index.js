@@ -5,6 +5,8 @@ import {
 	SET_CATEGORIES,
 	RECEIVE_POSTS,
 	SORT_POSTS,
+	ADD_POST,
+	DEL_POST,
 } from '../actions'
 
 function selectCategory(state="all", action){
@@ -46,6 +48,11 @@ const initComment ={
 	deleted: null
 }
 
+const initPosts = {
+	orderBy: '',
+	items: []
+}
+
 // const post = (state=initPost, action){
 // 	switch(action.type){
 // 		case RECEIVE_POSTS:
@@ -70,17 +77,40 @@ const initComment ={
 // 	}
 // }
 
-function posts(state=[], action){
+function posts(state=initPosts, action){
+	let arr, order, idx
 	switch(action.type){
 		case RECEIVE_POSTS:
-			return action.posts
+			return {
+				...state,
+				items: action.posts.filter(post => !post.deleted)
+			}
+
+		case ADD_POST:
+			return {
+				...state,
+				items: state.items.concat([action.post])
+
+			}
+		case DEL_POST:
+			arr = state.items.slice()
+			idx = arr.findIndex((post) => post.id === action.id)
+			arr.splice(idx, 1)
+			return {
+				...state,
+				items: arr
+			}
 
 		case SORT_POSTS:
-			let order = action.order
-			let newState = state.slice()
-			return newState.sort((a,b) => {
-				return a[order] - b[order]
+			order = action.order
+			arr = state.items.slice()
+			arr.sort((a,b) => {
+				return b[order] - a[order]
 			})
+			return {
+				orderBy: order,
+				items: arr
+			}
 
 		default:
 			return state
