@@ -4,6 +4,8 @@ export const SELECT_CATEGORY ='SELECT_CATEGORY'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const SORT_POSTS = 'SORT_POSTS'
+export const ADD_POST = 'ADD_POST'
+export const DEL_POST = 'DEL_POST'
 
 export const selectCategory = selectCategory => {
 	return {
@@ -41,6 +43,7 @@ export const fetchCategories = () => (dispatch) => {
 export const fetchAllPosts = () => (dispatch) => {
 	return api.getAllPosts()
 			.then(data => dispatch(receivePosts( data)))
+			.then(data => dispatch(orderPosts('voteScore')))
 }
 
 export const fetchPosts = category => (dispatch) => {
@@ -56,4 +59,28 @@ export const orderPosts = order => {
 	}
 }
 
+export const addPost = post => {
+	return {
+		type: ADD_POST,
+		post
+	}
+}
+
+export const delPost = id => {
+	return {
+		type: DEL_POST,
+		id
+	}
+}
+
+export const asyncAddPost = post => (dispatch, getState) => {
+	return api.postPost(post)
+			.then(() => dispatch(addPost(post)))
+			.then(()=> dispatch(orderPosts(getState().posts.orderBy)))
+}
+
+export const asyncDelPost = id => (dispatch,getState) => {
+	return api.delPost(id)
+			.then(() => dispatch(delPost(id)))
+}
 

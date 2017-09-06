@@ -27,4 +27,18 @@ export const getPost = id =>
 	fetch(`${api}/posts/id`, {headers} )
 	.then(res => res.json())
 
+export const postPost = post =>
+	fetch(`${api}/posts`,{
+		method: 'POST',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify(post)
+	})
 
+export const delPost = id => 
+	fetch(`${api}/posts/${id}`,{
+		method: 'DELETE',
+		headers,
+	})
