@@ -6,6 +6,7 @@ export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const SORT_POSTS = 'SORT_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const DEL_POST = 'DEL_POST'
+export const EDIT_POST='EDIT_POST'
 
 export const selectCategory = selectCategory => {
 	return {
@@ -73,14 +74,28 @@ export const delPost = id => {
 	}
 }
 
+export const editPost = post =>{
+	return {
+		type: EDIT_POST,
+		post
+	}
+}
+
 export const asyncAddPost = post => (dispatch, getState) => {
 	return api.postPost(post)
 			.then(() => dispatch(addPost(post)))
 			.then(()=> dispatch(orderPosts(getState().posts.orderBy)))
 }
 
-export const asyncDelPost = id => (dispatch,getState) => {
+
+export const asyncDelPost = id => (dispatch) => {
 	return api.delPost(id)
 			.then(() => dispatch(delPost(id)))
 }
+
+export const asyncEditPost = post => (dispatch) => {
+	return api.editPost(post)
+			.then(() => dispatch(editPost(post)))
+}
+
 

@@ -13,5 +13,5 @@ const Picker = ({ value, onChange, options }) => (
   </span>
 )
 
-
 export default Picker
+
