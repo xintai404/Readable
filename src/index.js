@@ -20,6 +20,7 @@ ReactDOM.render(
 			<div>
 				<Route exact path="/" component={App} />
 				<Route path="/category/:selectCategory" component={Category} />
+				<Route path="/post/:postId" component={PostView} />
 			</div>
 		</BrowserRouter>
 	</Provider>,

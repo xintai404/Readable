@@ -193,11 +193,11 @@ class App extends Component {
                 overlayClassName='overlay'
                 isOpen={editPostModalOpen}
                 onRequestClose={this.closeEditPost}
-                contentLabel='Add Post'
+                contentLabel='Edit Post'
             >
                 <div className="modal-content">
                     <h3> Edit Post </h3>
-                    <form name="addPostForm" className="" onSubmit={this.onEditPost}
+                    <form name="editPostForm" className="" onSubmit={this.onEditPost}
                        ref={(form) => this.form = form}>
                        
                         title: <input name="title" defaultValue={post.title}/> <br/>

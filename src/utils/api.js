@@ -62,3 +62,46 @@ export const votePost = (id, vote)=>
 		},
 		body: JSON.stringify({option:vote})
 	})
+
+
+
+export const getCommentsByPost = postId => 
+	fetch(`${api}/posts/${postId}/comments`, {headers})
+	.then(res => res.json())
+
+
+export const postComment = comment =>
+	fetch(`${api}/comments`,{
+		method: 'POST',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify(comment)
+	})
+
+export const delComment = id => 
+	fetch(`${api}/comments/${id}`,{
+		method: 'DELETE',
+		headers,
+	})
+
+export const editComment = comment=> 
+	fetch(`${api}/comments/${comment.id}`, {
+		method: 'PUT',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify({ body: comment.body, timestamp: Date.now()})
+	})
+
+export const voteComment = (id, vote)=>
+	fetch(`${api}/comment/${id}`,{
+		method: 'POST',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify({option:vote})
+	})

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {Link} from 'react-router-dom'
 const PostList = ({posts, onDelPost, openEditPost, onVotePost }) => (
 
 	<ul className="">
@@ -7,7 +7,11 @@ const PostList = ({posts, onDelPost, openEditPost, onVotePost }) => (
         posts.map(post => (
                         
             <li key={post.id} >
-                <span>{post.title} -- {post.voteScore}</span>
+                <Link to= {`/post/${post.id}`}>
+                    {post.title} 
+                </Link>
+
+                <span>Vote: {post.voteScore}</span>
                 <button className="" onClick={()=>openEditPost(post)}
                 >
                     Edit
