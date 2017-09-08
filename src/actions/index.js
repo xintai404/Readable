@@ -147,10 +147,10 @@ export const delComment = id => {
 	}
 }
 
-export const editComment = post =>{
+export const editComment = comment =>{
 	return {
 		type: EDIT_COMMENT,
-		post
+		comment
 	}
 }
 

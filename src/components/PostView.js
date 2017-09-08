@@ -5,7 +5,8 @@ import {
     orderComments, 
     asyncAddComment,
     asyncDelComment,
-    asyncEditComment
+    asyncEditComment,
+    asyncVoteComment,
 } from '../actions'
 
 import Modal from 'react-modal'
@@ -32,10 +33,12 @@ class PostView extends Component {
         this.closeEditComment = this.closeEditComment.bind(this)
         this.onDelComment = this.onDelComment.bind(this)
         this.onEditComment = this.onEditComment.bind(this)
+        this.onVoteComment = this.onVoteComment.bind(this)
     }
 
     componentDidMount(){
         this.dispatch(fetchComments(this.props.postId))   
+        this.dispatch(orderComments('voteScore'))
     }
 
     onSortComments(order){
@@ -93,6 +96,9 @@ class PostView extends Component {
     this.dispatch(asyncDelComment(id))
   }
 
+  onVoteComment(id, vote){
+    this.dispatch(asyncVoteComment(id, vote))
+  }
   closeAddComment(){
     this.setState({
         addCommentModalOpen: false,
@@ -132,6 +138,7 @@ class PostView extends Component {
                     comments = {comments}
                     onDelComment = {this.onDelComment}
                     openEditComment = {this.openEditComment}
+                    onVoteComment = {this.onVoteComment}
                 />
             </div>
 
@@ -148,7 +155,6 @@ class PostView extends Component {
                         ref={(form) => this.form = form}>
                        
                         author: <input name="author"/> <br/>
-
                         body: <textarea name="body"/> <br/>
                         <button type="submit" >submit</button>
                     </form>

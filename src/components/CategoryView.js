@@ -6,7 +6,8 @@ import {
     orderPosts, 
     asyncAddPost,
     asyncDelPost,
-    asyncEditPost
+    asyncEditPost,
+    asyncVotePost
 } from '../actions'
 
 import Modal from 'react-modal'
@@ -33,6 +34,7 @@ class Category extends Component {
         this.closeEditPost = this.closeEditPost.bind(this)
         this.onDelPost = this.onDelPost.bind(this)
         this.onEditPost = this.onEditPost.bind(this)
+        this.onVotePost = this.onVotePost.bind(this)
     }
 
     componentDidMount(){
@@ -94,6 +96,10 @@ class Category extends Component {
     this.dispatch(asyncDelPost(id))
   }
 
+  onVotePost(id, vote){
+    this.dispatch(asyncVotePost(id, vote))
+  }
+
   closeAddPost(){
     this.setState({
         addPostModalOpen: false,
@@ -133,6 +139,7 @@ class Category extends Component {
                     posts = {posts}
                     onDelPost = {this.onDelPost}
                     openEditPost = {this.openEditPost}
+                    onVotePost = {this.onVotePost}
                 />
             </div>
 
