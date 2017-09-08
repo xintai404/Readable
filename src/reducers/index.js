@@ -7,6 +7,7 @@ import {
 	SORT_POSTS,
 	ADD_POST,
 	DEL_POST,
+	EDIT_POST,
 } from '../actions'
 
 function selectCategory(state="all", action){
@@ -90,8 +91,22 @@ function posts(state=initPosts, action){
 			return {
 				...state,
 				items: state.items.concat([action.post])
-
 			}
+
+		case EDIT_POST:
+			arr = state.items.slice()
+			arr = arr.map(post => {
+				if(post.id === action.post.id){
+					return action.post
+				}else{
+					return post
+				}
+			})
+			return {
+				...state,
+				items: arr
+			}
+
 		case DEL_POST:
 			arr = state.items.slice()
 			idx = arr.findIndex((post) => post.id === action.id)
@@ -110,6 +125,13 @@ function posts(state=initPosts, action){
 			return {
 				orderBy: order,
 				items: arr
+			}
+
+		case SELECT_CATEGORY:
+			arr = state.items.slice()
+			return {
+				...state,
+				items: arr.filter(post=> post.category === action.selectCategory)
 			}
 
 		default:

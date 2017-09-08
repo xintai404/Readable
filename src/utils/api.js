@@ -1,4 +1,4 @@
-const api = "http://localhost:5001"
+const api = "http://localhost:3001"
 
 let token = localStorage.token;
 if(!token){
@@ -41,4 +41,14 @@ export const delPost = id =>
 	fetch(`${api}/posts/${id}`,{
 		method: 'DELETE',
 		headers,
+	})
+
+export const editPost = post=> 
+	fetch(`${api}/posts/${post.id}`, {
+		method: 'PUT',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify({title: post.title, body: post.body})
 	})

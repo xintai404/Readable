@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import { fetchAllPosts, 
-        fetchCategories,
-        orderPosts, 
-        asyncAddPost,
-        asyncDelPost,
-        asyncEditPost
+import { 
+    selectCategory,
+    orderPosts, 
+    asyncAddPost,
+    asyncDelPost,
+    asyncEditPost
 } from '../actions'
 
 import Modal from 'react-modal'
@@ -14,7 +14,7 @@ import Picker from './Picker'
 import PostList from './PostList'
 import {getUID} from '../utils/helper'
 
-class App extends Component {
+class Category extends Component {
     state = {
         addPostModalOpen: false,
         editPostModalOpen: false,
@@ -36,9 +36,7 @@ class App extends Component {
     }
 
     componentDidMount(){
-        
-        this.dispatch(fetchCategories())   
-        this.dispatch(fetchAllPosts())
+        this.dispatch(selectCategory(this.props.selectCategory))   
     }
 
     onSortPosts(order){
@@ -113,20 +111,12 @@ class App extends Component {
 
   render() {
     const {addPostModalOpen, editPostModalOpen, post} = this.state
-    const {categories, posts, orderBy} = this.props;
+    const {selectCategory, categories,posts, orderBy} = this.props;
     const sortOptions = ['voteScore', 'timestamp']
     return (
         <div className="container">
-            <h3>Categories</h3>
-            <div className="categories-list">
-                <ul className="">
-                    {categories.map((category,index) => (
-                        <li key={index}>
-                            <Link to={`/category/${category}`}> {category} </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <h3>{selectCategory}</h3>
+            
 
             <h3>Posts</h3>
             <div className="posts-list">
@@ -164,11 +154,7 @@ class App extends Component {
 
                         category: 
                         <select name="category">
-                          {categories.map(option =>
-                            <option value={option} key={option}>
-                              {option}
-                            </option>)
-                          }
+                          
                         </select>
                         <br/>
 
@@ -206,15 +192,14 @@ class App extends Component {
 }
 
 
-const mapStateToProps = state => {
-  const {posts, categories, selectCategory} = state
+const mapStateToProps = (state, ownProps) => {
+  const {posts, selectCategory} = state
   return {
-    selectCategory, 
-    categories, 
+    selectCategory: ownProps.match.params.selectCategory, 
     'posts': posts.items,
     'orderBy': posts.orderBy}
 }
 
 export default connect(
   mapStateToProps
-)(App);
+)(Category);

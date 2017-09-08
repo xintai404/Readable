@@ -8,7 +8,12 @@ body {
 .fr{
 	float: right;
 }
-
+.container {
+  margin: 0 auto;
+  max-width: 1070px;
+  padding: 20px;
+  min-width: 600px;
+}
 
 .overlay {
   position: fixed;
@@ -34,4 +39,8 @@ body {
   border-radius: 3px;
   box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
   min-width: 500px;
+}
+
+.modal-content h3{
+  text-align: center;
 }
