@@ -7,6 +7,7 @@ export const SORT_POSTS = 'SORT_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const DEL_POST = 'DEL_POST'
 export const EDIT_POST='EDIT_POST'
+export const VOTE_POST= 'VOTE_POST'
 
 export const selectCategory = selectCategory => {
 	return {
@@ -79,6 +80,20 @@ export const editPost = post =>{
 		type: EDIT_POST,
 		post
 	}
+}
+
+export const votePost = (id, vote) => {
+	return {
+		type: VOTE_POST,
+		id,
+		vote
+	}
+}
+
+export const asyncVotePost = (id, vote) => (dispatch, getState) =>{
+	return api.votePost(id, vote)
+			.then(() => dispatch(votePost(id, vote)))
+			.then(() => dispatch(orderPosts(getState().posts.orderBy)))
 }
 
 export const asyncAddPost = post => (dispatch, getState) => {

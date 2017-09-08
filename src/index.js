@@ -6,7 +6,8 @@ import rootReducer from './reducers'
 import thunk from 'redux-thunk'
 import './index.css';
 import App from './components/App';
-import Category from './components/Category'
+import Category from './components/CategoryView'
+import PostView from './components/PostView'
 import { Provider } from 'react-redux'
 import registerServiceWorker from './registerServiceWorker';
 

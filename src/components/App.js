@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import ReactModal from 'react-modal'
 import { fetchAllPosts, 
         fetchCategories,
         orderPosts, 
         asyncAddPost,
         asyncDelPost,
-        asyncEditPost
+        asyncEditPost,
+        asyncVotePost,
 } from '../actions'
 import Picker from './Picker'
 import Modal from 'react-modal'
-import Picker from './Picker'
 import PostList from './PostList'
 
 import {getUID} from '../utils/helper'
@@ -35,6 +34,7 @@ class App extends Component {
         this.closeEditPost = this.closeEditPost.bind(this)
         this.onDelPost = this.onDelPost.bind(this)
         this.onEditPost = this.onEditPost.bind(this)
+        this.onVotePost = this.onVotePost.bind(this)
 
     }
 
@@ -99,6 +99,10 @@ class App extends Component {
     this.dispatch(asyncDelPost(id))
   }
 
+  onVotePost(id, vote){
+    this.dispatch(asyncVotePost(id, vote))
+  }
+
   closeAddPost(){
     this.setState({
         addPostModalOpen: false,
@@ -146,6 +150,7 @@ class App extends Component {
                     posts = {posts}
                     onDelPost = {this.onDelPost}
                     openEditPost = {this.openEditPost}
+                    onVotePost = {this.onVotePost}
                 />
             </div>
 

@@ -1,4 +1,4 @@
-const  getUID = function(){
+export const  getUID = (function(){
 	const str= '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	return function() {
 		let id = ''
@@ -8,6 +8,5 @@ const  getUID = function(){
 		}
 		return id
 	}
-}()
+})()
 
-export {getUID}

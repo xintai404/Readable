@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PostList = ({posts, onDelPost, openEditPost}) => (
+const PostList = ({posts, onDelPost, openEditPost, onVotePost }) => (
 
 	<ul className="">
     {
@@ -17,6 +17,20 @@ const PostList = ({posts, onDelPost, openEditPost}) => (
                     onClick={() => onDelPost(post.id)}
                 >
                     Delete
+                </button>
+
+                <button 
+                    className=""
+                    onClick={() => onVotePost(post.id, "upVote")}
+                >
+                    upVote
+                </button>
+
+                <button 
+                    className=""
+                    onClick={() => onVotePost(post.id, "downVote")}
+                >
+                    downVote
                 </button>
             </li>
     ))}

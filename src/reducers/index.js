@@ -7,10 +7,8 @@ import {
 	SORT_POSTS,
 	ADD_POST,
 	DEL_POST,
-<<<<<<< HEAD
-=======
 	EDIT_POST,
->>>>>>> 62b7d6dc9a80869e8746411dca4bca733d98412c
+	VOTE_POST,
 } from '../actions'
 
 function selectCategory(state="all", action){
@@ -114,6 +112,19 @@ function posts(state=initPosts, action){
 			arr = state.items.slice()
 			idx = arr.findIndex((post) => post.id === action.id)
 			arr.splice(idx, 1)
+			return {
+				...state,
+				items: arr
+			}
+
+		case VOTE_POST:
+			arr = state.items.slice()
+			arr = arr.map(post =>{
+				if(post.id === action.id){
+					post.voteScore += action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0
+				}
+				return post
+			})
 			return {
 				...state,
 				items: arr

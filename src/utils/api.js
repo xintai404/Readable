@@ -53,3 +53,12 @@ export const editPost = post=>
 		body: JSON.stringify({title: post.title, body: post.body})
 	})
 
+export const votePost = (id, vote)=>
+	fetch(`${api}/posts/${id}`,{
+		method: 'POST',
+		headers:{
+			...headers,
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify({option:vote})
+	})
