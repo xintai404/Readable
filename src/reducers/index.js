@@ -23,7 +23,7 @@ function selectCategory(state="all", action){
 		case SELECT_CATEGORY: 
 			return action.selectCategory
 		default: 
-			return state
+			return 'all'
 	}
 }
 
@@ -35,8 +35,6 @@ function categories(state=[], action){
 			return state
 	}
 }
-
-
 
 const initComments ={
 	orderBy: '',
@@ -139,7 +137,7 @@ function comments(state=initComments, action){
 				items: state.items.concat([action.comment])
 			}
 
-		case EDIT_POST:
+		case EDIT_COMMENT:
 			arr = state.items.slice()
 			arr = arr.map(comment => {
 				if(comment.id === action.comment.id){
@@ -153,7 +151,7 @@ function comments(state=initComments, action){
 				items: arr
 			}
 
-		case DEL_POST:
+		case DEL_COMMENT:
 			arr = state.items.slice()
 			idx = arr.findIndex((comment) => comment.id === action.id)
 			arr.splice(idx, 1)
@@ -162,7 +160,7 @@ function comments(state=initComments, action){
 				items: arr
 			}
 
-		case VOTE_POST:
+		case VOTE_COMMENT:
 			arr = state.items.slice()
 			arr = arr.map(comment =>{
 				if(comment.id === action.id){
@@ -175,7 +173,7 @@ function comments(state=initComments, action){
 				items: arr
 			}
 
-		case SORT_POSTS:
+		case SORT_COMMENTS:
 			order = action.order
 			arr = state.items.slice()
 			arr.sort((a,b) => {

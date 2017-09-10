@@ -97,6 +97,14 @@ export const fetchPosts = category => (dispatch) => {
 	
 }
 
+export const isNeedToFetchAllPosts = () => (dispatch, getState) => {
+	if(!getState().posts.items.length ){
+		return dispatch(fetchAllPosts())
+	}else{
+		return Promise.resolve()
+	}
+}
+
 export const asyncVotePost = (id, vote) => (dispatch, getState) =>{
 	return api.votePost(id, vote)
 			.then(() => dispatch(votePost(id, vote)))
@@ -189,5 +197,7 @@ export const asyncEditComment = comment => (dispatch) => {
 	return api.editComment(comment)
 			.then(() => dispatch(editComment(comment)))
 }
+
+
 
 
