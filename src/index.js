@@ -19,8 +19,8 @@ ReactDOM.render(
 		<BrowserRouter>
 			<div>
 				<Route exact path="/" component={App} />
-				<Route path="/:selectCategory" component={Category} />
-				<Route path="/:selectCategory/:postId" component={PostView} />
+				<Route exact path="/:selectCategory" component={Category} />
+				<Route exact path="/:selectCategory/:postId" component={PostView} />
 			</div>
 		</BrowserRouter>
 	</Provider>,

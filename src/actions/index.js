@@ -182,6 +182,7 @@ export const asyncVoteComment = (id, vote) => (dispatch, getState) =>{
 }
 
 export const asyncAddComment = comment => (dispatch, getState) => {
+	console.log(comment)
 	return api.postComment(comment)
 			.then(() => dispatch(addComment(comment)))
 			.then(()=> dispatch(orderComments(getState().comments.orderBy)))

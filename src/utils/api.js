@@ -97,7 +97,7 @@ export const editComment = comment=>
 	})
 
 export const voteComment = (id, vote)=>
-	fetch(`${api}/comment/${id}`,{
+	fetch(`${api}/comments/${id}`,{
 		method: 'POST',
 		headers:{
 			...headers,
