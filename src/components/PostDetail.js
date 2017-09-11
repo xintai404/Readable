@@ -27,6 +27,12 @@ const PostDetail = ({post, onDelPost, openEditPost, onVotePost, showBody }) => (
                     Score ({post.voteScore})
                 </span>
 
+                {post.comments
+                ?(  <span>
+                        Comments ({post.comments.length})
+                    </span>
+                ): null}
+
             </p>
             <button className="" onClick={()=>openEditPost(post)}>
                 Edit

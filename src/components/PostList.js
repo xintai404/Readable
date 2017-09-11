@@ -110,9 +110,10 @@ class PostList extends Component {
     }
 
     render(){
-        const {posts, orderBy, categories,showHeader} = this.props
+        const {posts, orderBy, categories, showHeader} = this.props
         const {addPostModalOpen, editPostModalOpen, post} = this.state
         const sortOptions = ['voteScore', 'timestamp']
+
         return (
             <div>
                 {showHeader

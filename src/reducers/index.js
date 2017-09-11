@@ -9,6 +9,7 @@ import {
 	DEL_POST,
 	EDIT_POST,
 	VOTE_POST,
+	RECEIVE_COMMENTS_BY_POST,
 
 	RECEIVE_COMMENTS,
 	SORT_COMMENTS,
@@ -46,28 +47,6 @@ const initPosts = {
 	byId:{},
 }   
 
-// const initComment = {
-// 	id: null,
-// 	parentId: null,
-//     timestamp: null,
-//     title: null,
-//     body: null,
-//     author: null,
-//     voteScore: null,
-//     deleted: null,
-// }
-
-// const initPost = {
-// 	id: null,
-//     timestamp: null,
-//     title: null,
-//     body: null,
-//     author: null,
-//     category: null,
-//     voteScore: null,
-//     deleted: null,
-//     comments: []
-// }
 function comment(state={}, action){
 	switch(action.type){
 		case EDIT_COMMENT:
@@ -75,7 +54,6 @@ function comment(state={}, action){
 				...state,
 				...action.comment
 			}
-		
 
 		case VOTE_COMMENT:
 			return {
@@ -102,7 +80,16 @@ function post(state={}, action){
 				voteScore: state.voteScore + (action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0)
 			}
 		 
-
+		case RECEIVE_COMMENTS_BY_POST:
+			return {
+				...state,
+				comments: action.comments.map(comment=> comment.id)
+			}
+		case ADD_COMMENT:
+			return {
+				...state,
+				comments: state.comments.concat([action.comment.id])
+			}
 		default:
 			return state
 	}
@@ -118,6 +105,15 @@ function posts(state=initPosts, action){
 					obj[post.id] = post
 					return obj
 				},{})
+			}
+
+		case RECEIVE_COMMENTS_BY_POST:
+			return {
+				...state,
+				byId: {
+					...state.byId,
+					[action.parentId]: post(state.byId[action.parentId], action)
+				}
 			}
 
 		case ADD_POST:
@@ -181,6 +177,15 @@ function posts(state=initPosts, action){
 			return {
 				...state,
 				byId: byId
+			}
+
+		case ADD_COMMENT:
+			return {
+				...state,
+				byId: {
+					...state.byId,
+					[action.comment.parentId]: post(state.byId[action.comment.parentId], action)
+				}
 			}
 
 		default:

@@ -8,6 +8,7 @@ export const ADD_POST = 'ADD_POST'
 export const DEL_POST = 'DEL_POST'
 export const EDIT_POST='EDIT_POST'
 export const VOTE_POST= 'VOTE_POST'
+export const RECEIVE_COMMENTS_BY_POST = 'RECEIVE_COMMENTS_BY_POST'
 
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const SORT_COMMENTS = 'SORT_COMMENTS'
@@ -49,6 +50,14 @@ export const receivePosts = (posts) => {
 	}
 }
 
+export const receiveCommentsByPost = (parentId, comments) => {
+	return {
+		type: RECEIVE_COMMENTS_BY_POST,
+		parentId,
+		comments
+	}
+}
+
 export const orderPosts = order => {
 	return {
 		type: SORT_POSTS,
@@ -87,8 +96,16 @@ export const votePost = (id, vote) => {
 
 export const fetchAllPosts = () => (dispatch) => {
 	return api.getAllPosts()
-			.then(data => dispatch(receivePosts( data)))
-			.then(data => dispatch(orderPosts('voteScore')))
+			.then(data => {
+				return dispatch(receivePosts( data))
+			})
+			.then((data) => {
+				data.posts.forEach(post=>{
+					api.getCommentsByPost(post.id)
+					.then(comments => dispatch(receiveCommentsByPost(post.id, comments))) 
+				})
+				dispatch(orderPosts('voteScore'))
+			})
 }
 
 export const fetchPosts = category => (dispatch) => {
@@ -99,7 +116,15 @@ export const fetchPosts = category => (dispatch) => {
 
 export const isNeedToFetchAllPosts = () => (dispatch, getState) => {
 	if(Object.keys(getState().posts.byId).length === 0 ){
-		return dispatch(fetchAllPosts())
+		return dispatch(fetchCategories())
+	}else{
+		return Promise.resolve()
+	}
+}
+
+export const isNeedToFetchCategories = () => (dispatch, getState) => {
+	if(getState().categories.length === 0){
+		return dispatch(fetch)
 	}else{
 		return Promise.resolve()
 	}

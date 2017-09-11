@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { 
     selectCategory,
-    isNeedToFetchAllPosts
+    isNeedToFetchAllPosts,
+    isNeedToFetchCategories
 } from '../actions'
 
 import PostList from './PostList'
@@ -16,6 +17,7 @@ class Category extends Component {
 
     componentDidMount(){
         this.dispatch(isNeedToFetchAllPosts())
+        this.dispatch(isNeedToFetchCategories())
         this.dispatch(selectCategory(this.props.selectCategory))   
     }
 
@@ -30,7 +32,7 @@ class Category extends Component {
 
                 <PostList 
                     posts={posts}
-                    showBody={true}
+                    showHeader={true}
                 />
             </div>
         )
