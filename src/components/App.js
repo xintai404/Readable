@@ -23,11 +23,11 @@ class App extends Component {
         return (
             <div className="container">
                 <h3>Categories</h3>
-                <div className="categories-list">
-                    <ul className="">
+                <div className="">
+                    <ul className="list">
                         {categories.map((category,index) => (
                             <li key={index}>
-                                <Link to={`/${category}`}> {category} </Link>
+                                <Link to={`/${category}`} className="link"> {category} </Link>
                             </li>
                         ))}
                     </ul>

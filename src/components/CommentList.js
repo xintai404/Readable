@@ -113,12 +113,9 @@ class CommentList extends Component{
     const {comments, orderBy} = this.props;
     const sortOptions = ['voteScore', 'timestamp']
     return (
-        <div className="container">
-            <h3>Post</h3>
-            
-
-            <h3>Comments</h3>
-            <div className="posts-list">
+        <div>
+        
+            <div className="list-header">
                 <button className="fr"
                     onClick={this.openAddComment}>
                     Add Comment
@@ -128,13 +125,27 @@ class CommentList extends Component{
                         options={sortOptions}
                         onChange={this.onSortComments} 
                 />
-                
-                <ul className="">
+            </div>
+
+                <ul className="list">
                 {
                     comments.map(comment => (
                                     
-                        <li key={comment.id} >
-                            <span>{comment.body} -- {comment.voteScore}</span>
+                        <li key={comment.id} className="list-item">
+                            <p>
+                                {comment.body}
+                            </p>
+                            <p>
+                                By&nbsp;
+                                <span className="author">
+                                    {comment.author} 
+                                </span>
+
+                                <span>
+                                    Score ({comment.voteScore})
+                                </span>
+
+                            </p>
                             <button className="" onClick={()=>this.openEditComment(comment)}
                             >
                                 Edit
@@ -162,7 +173,7 @@ class CommentList extends Component{
                         </li>
                 ))}
                 </ul>
-            </div>
+
 
             <Modal
                 className='modal'

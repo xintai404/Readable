@@ -46,3 +46,31 @@ body {
 .modal-content h3{
   text-align: center;
 }
+
+.list{
+  list-style:none;
+  padding-left: 20px;
+}
+
+.list-item{
+  margin-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #999;
+}
+
+.list-item span{
+  margin-right: 15px;
+}
+
+.author{
+  font-style: italic;
+}
+
+.list-header{
+  padding-left:20px
+}
+
+.link{
+  text-decoration: none;
+}

@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Modal from 'react-modal'
 import Picker from './Picker'
+import PostDetail from './PostDetail'
 import { 
         orderPosts,
         asyncAddPost,
@@ -12,46 +13,6 @@ import {
 } from '../actions'
 
 import {getUID} from '../utils/helper'
-// const PostList = ({posts, onDelPost, openEditPost, onVotePost }) => (
-
-// 	<ul className="">
-//     {
-//         posts.map(post => (
-                        
-//             <li key={post.id} >
-//                 <Link to= {`/${post.category}/${post.id}`}>
-//                     {post.title} 
-//                 </Link>
-
-//                 <span>Vote: {post.voteScore}</span>
-//                 <button className="" onClick={()=>openEditPost(post)}
-//                 >
-//                     Edit
-//                 </button>
-//                 <button 
-//                     className=""
-//                     onClick={() => onDelPost(post.id)}
-//                 >
-//                     Delete
-//                 </button>
-
-//                 <button 
-//                     className=""
-//                     onClick={() => onVotePost(post.id, "upVote")}
-//                 >
-//                     upVote
-//                 </button>
-
-//                 <button 
-//                     className=""
-//                     onClick={() => onVotePost(post.id, "downVote")}
-//                 >
-//                     downVote
-//                 </button>
-//             </li>
-//     ))}
-//     </ul>
-// )
 
 class PostList extends Component {
     state = {
@@ -155,51 +116,25 @@ class PostList extends Component {
         const sortOptions = ['voteScore', 'timestamp']
         return (
             <div>
-                
-                <button className="fr"
-                    onClick={this.openAddPost}>
-                    Add Post
-                </button>
-                <span>Order By: </span>
-                <Picker value = {orderBy} 
-                        options={sortOptions}
-                        onChange={this.onSortPosts} 
-                />
-                <ul className="">
+                <div className="list-header">
+                    <button className="fr"
+                        onClick={this.openAddPost}>
+                        Add Post
+                    </button>
+                    <span>Order By: </span>
+                    <Picker value = {orderBy} 
+                            options={sortOptions}
+                            onChange={this.onSortPosts} 
+                    />
+                </div>
+                <ul className="list">
                 {
                     posts.map(post => (
-                                
-                        <li key={post.id} >
-                            <Link to= {`/${post.category}/${post.id}`}>
-                                {post.title} 
-                            </Link>
-
-                            <span>Vote: {post.voteScore}</span>
-                            <button className="" onClick={()=>this.openEditPost(post)}
-                            >
-                                Edit
-                            </button>
-                            <button 
-                                className=""
-                                onClick={() => this.onDelPost(post.id)}
-                            >
-                                Delete
-                            </button>
-
-                            <button 
-                                className=""
-                                onClick={() => this.onVotePost(post.id, "upVote")}
-                            >
-                                upVote
-                            </button>
-
-                            <button 
-                                className=""
-                                onClick={() => this.onVotePost(post.id, "downVote")}
-                            >
-                                downVote
-                            </button>
-                        </li>
+                        <PostDetail post={post}
+                                    onDelPost={this.onDelPost}
+                                    onEditPost={this.onEditPost}
+                                    onVotePost={this.onVotePost} 
+                        />
                     ))
                 }
                 </ul>

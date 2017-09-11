@@ -33,7 +33,9 @@ class PostView extends Component {
     const {postId} = this.props;
     return (
         <div className="container">
+            
             <h3>Post</h3>
+            
             <h3>Comments</h3>
             <CommentList postId={postId}/>
         </div>
