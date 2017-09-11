@@ -144,6 +144,7 @@ export const asyncAddPost = post => (dispatch, getState) => {
 
 
 export const asyncDelPost = id => (dispatch) => {
+	console.log('del ',id)
 	return api.delPost(id)
 			.then(() => dispatch(delPost(id)))
 }

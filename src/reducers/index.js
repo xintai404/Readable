@@ -87,7 +87,7 @@ function post(state={}, action){
 		case ADD_COMMENT:
 			return {
 				...state,
-				comments: state.comments.concat([action.comment.id])
+				comments: state.comments?state.comments.concat([action.comment.id]): [action.comment.id]
 			}
 
 		case DEL_COMMENT:
