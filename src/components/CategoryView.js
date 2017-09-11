@@ -20,7 +20,7 @@ class Category extends Component {
     }
 
     render() {
-        const {selectCategory} = this.props;
+        const {selectCategory, posts} = this.props;
         return (
             <div className="container">
                 <h3>{selectCategory}</h3>
@@ -28,7 +28,10 @@ class Category extends Component {
 
                 <h3>Posts</h3>
 
-                <PostList />
+                <PostList 
+                    posts={posts}
+                    showHeader={true}
+                />
             </div>
         )
     }
@@ -36,8 +39,10 @@ class Category extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
+    const {posts } = state
     return {
-        selectCategory: ownProps.match.params.selectCategory
+        selectCategory: ownProps.match.params.selectCategory,
+        posts: posts.items
     }
 }
 

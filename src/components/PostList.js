@@ -111,12 +111,13 @@ class PostList extends Component {
     }
 
     render(){
-        const {posts, orderBy, categories} = this.props
+        const {posts, orderBy, categories,showHeader} = this.props
         const {addPostModalOpen, editPostModalOpen, post} = this.state
         const sortOptions = ['voteScore', 'timestamp']
         return (
             <div>
-                <div className="list-header">
+                {showHeader
+                ?(<div className="list-header">
                     <button className="fr"
                         onClick={this.openAddPost}>
                         Add Post
@@ -126,7 +127,9 @@ class PostList extends Component {
                             options={sortOptions}
                             onChange={this.onSortPosts} 
                     />
-                </div>
+                </div>)
+                :null
+                }
                 <ul className="list">
                 {
                     posts.map(post => (
@@ -203,7 +206,7 @@ const mapStateToProps = state => {
   return {
     selectCategory, 
     categories, 
-    'posts': posts.items,
+    //'posts': posts.items,
     'orderBy': posts.orderBy}
 }
 

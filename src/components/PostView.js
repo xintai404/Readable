@@ -13,7 +13,7 @@ import {
 import Modal from 'react-modal'
 import Picker from './Picker'
 import CommentList from './CommentList'
-import PostDetail from './PostDetail'
+import PostList from './PostList'
 import {getUID} from '../utils/helper'
 
 class PostView extends Component {
@@ -30,12 +30,12 @@ class PostView extends Component {
     }
 
   render() {
-    const {postId} = this.props;
+    const {postId, posts} = this.props;
     return (
         <div className="container">
             
             <h3>Post</h3>
-            
+            <PostList posts={posts}/>
             <h3>Comments</h3>
             <CommentList postId={postId}/>
         </div>
@@ -45,8 +45,11 @@ class PostView extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
+    const {posts} = state
+    const postId = ownProps.match.params.postId
     return {
-        postId: ownProps.match.params.postId,
+        postId,
+        posts: posts.items.filter(post => postId === post.id)
     }
 }
 

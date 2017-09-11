@@ -19,7 +19,7 @@ class App extends Component {
 
 
     render() {
-        const {categories} = this.props;
+        const {categories, posts} = this.props;
         return (
             <div className="container">
                 <h3>Categories</h3>
@@ -35,7 +35,11 @@ class App extends Component {
 
                 <h3>Posts</h3>
 
-                <PostList  />
+                <PostList  
+                    posts={posts}
+                    showHeader={true}
+                />
+
   
             </div>
         )
@@ -45,9 +49,10 @@ class App extends Component {
 
 
 const mapStateToProps = state => {
-    const {categories} = state
+    const {categories, posts} = state
     return {
         categories, 
+        posts: posts.items
     }
 }
 

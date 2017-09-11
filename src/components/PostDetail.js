@@ -7,12 +7,6 @@ const PostDetail = ({post, onDelPost, openEditPost, onVotePost, showBody }) => (
                             </Link>
 
                             <div >
-                                <p> 
-                                    By&nbsp;
-                                    <span className="author">
-                                         {post.author} 
-                                    </span>
-                                </p>
                                 {showBody
                                 ?(
                                     <p>
@@ -21,13 +15,16 @@ const PostDetail = ({post, onDelPost, openEditPost, onVotePost, showBody }) => (
                                 )
                                 : ''
                                 }
-                                <p>
-                                    <span>
-                                        Score ({post.voteScore})
+                            </div>
+                            <div >
+                                <p> 
+                                    By&nbsp;
+                                    <span className="author">
+                                         {post.author} 
                                     </span>
 
                                     <span>
-                                        Comments ({post.voteScore})
+                                        Score ({post.voteScore})
                                     </span>
 
                                 </p>
