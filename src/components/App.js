@@ -18,7 +18,6 @@ class App extends Component {
         this.dispatch(fetchAllPosts())
     }
 
-
     render() {
         const {categories, posts} = this.props;
         return (

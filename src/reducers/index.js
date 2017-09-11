@@ -72,7 +72,6 @@ function post(state={}, action){
 				...state,
 				...action.post
 			}
-		
 
 		case VOTE_POST:
 			return {
@@ -89,6 +88,12 @@ function post(state={}, action){
 			return {
 				...state,
 				comments: state.comments.concat([action.comment.id])
+			}
+
+		case DEL_COMMENT:
+			return {
+				...state,
+				comments: state.comments.filter(id => id!== action.id)
 			}
 		default:
 			return state
@@ -185,6 +190,15 @@ function posts(state=initPosts, action){
 				byId: {
 					...state.byId,
 					[action.comment.parentId]: post(state.byId[action.comment.parentId], action)
+				}
+			}
+
+		case  DEL_COMMENT:
+			return {
+				...state,
+				byId: {
+					...state.byId,
+					[action.parentId]: post(state.byId[action.parentId], action)
 				}
 			}
 

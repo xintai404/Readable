@@ -85,8 +85,8 @@ class CommentList extends Component{
     this.dispatch(asyncEditComment(comment))
   }
 
-  onDelComment(id){
-    this.dispatch(asyncDelComment(id))
+  onDelComment(id, parentId){
+    this.dispatch(asyncDelComment(id, parentId))
   }
 
   onVoteComment(id, vote){
@@ -152,7 +152,7 @@ class CommentList extends Component{
                                 </button>
                                 <button 
                                     className=""
-                                    onClick={() => this.onDelComment(comment.id)}
+                                    onClick={() => this.onDelComment(comment.id, comment.parentId)}
                                 >
                                     Delete
                                 </button>

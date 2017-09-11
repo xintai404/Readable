@@ -116,7 +116,7 @@ export const fetchPosts = category => (dispatch) => {
 
 export const isNeedToFetchAllPosts = () => (dispatch, getState) => {
 	if(Object.keys(getState().posts.byId).length === 0 ){
-		return dispatch(fetchCategories())
+		return dispatch(fetchAllPosts())
 	}else{
 		return Promise.resolve()
 	}
@@ -173,10 +173,11 @@ export const addComment = comment => {
 	}
 }
 
-export const delComment = id => {
+export const delComment = (id, parentId) => {
 	return {
 		type: DEL_COMMENT,
-		id
+		id,
+		parentId
 	}
 }
 
@@ -207,16 +208,15 @@ export const asyncVoteComment = (id, vote) => (dispatch, getState) =>{
 }
 
 export const asyncAddComment = comment => (dispatch, getState) => {
-	console.log(comment)
 	return api.postComment(comment)
 			.then(() => dispatch(addComment(comment)))
 			.then(()=> dispatch(orderComments(getState().comments.orderBy)))
 }
 
 
-export const asyncDelComment = id => (dispatch) => {
+export const asyncDelComment = (id,parentId) => (dispatch) => {
 	return api.delComment(id)
-			.then(() => dispatch(delComment(id)))
+			.then(() => dispatch(delComment(id, parentId)))
 }
 
 export const asyncEditComment = comment => (dispatch) => {
