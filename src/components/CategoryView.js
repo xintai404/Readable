@@ -30,7 +30,7 @@ class Category extends Component {
 
                 <PostList 
                     posts={posts}
-                    showHeader={true}
+                    showBody={true}
                 />
             </div>
         )
@@ -42,10 +42,10 @@ const mapStateToProps = (state, ownProps) => {
     const {posts } = state
     return {
         selectCategory: ownProps.match.params.selectCategory,
-        posts: posts.items
+        posts: Object.keys(posts.byId).map(id=> posts.byId[id])
     }
 }
 
 export default connect(
-  mapStateToProps
+    mapStateToProps
 )(Category);

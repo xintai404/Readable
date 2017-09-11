@@ -10,7 +10,6 @@ import {
 
 import Modal from 'react-modal'
 import Picker from './Picker'
-import PostDetail from './PostDetail'
 import {getUID} from '../utils/helper'
 
 class CommentList extends Component{
@@ -129,50 +128,52 @@ class CommentList extends Component{
 
                 <ul className="list">
                 {
-                    comments.map(comment => (
+                    comments.map(comment => 
+                        comment?(
                                     
-                        <li key={comment.id} className="list-item">
-                            <p>
-                                {comment.body}
-                            </p>
-                            <p>
-                                By&nbsp;
-                                <span className="author">
-                                    {comment.author} 
-                                </span>
+                            <li key={comment.id} className="list-item">
+                                <p>
+                                    {comment.body}
+                                </p>
+                                <p>
+                                    By&nbsp;
+                                    <span className="author">
+                                        {comment.author? comment.author: 'anonymous'} 
+                                    </span>
 
-                                <span>
-                                    Score ({comment.voteScore})
-                                </span>
+                                    <span>
+                                        Score ({comment.voteScore})
+                                    </span>
 
-                            </p>
-                            <button className="" onClick={()=>this.openEditComment(comment)}
-                            >
-                                Edit
-                            </button>
-                            <button 
-                                className=""
-                                onClick={() => this.onDelComment(comment.id)}
-                            >
-                                Delete
-                            </button>
+                                </p>
+                                <button className="" onClick={()=>this.openEditComment(comment)}
+                                >
+                                    Edit
+                                </button>
+                                <button 
+                                    className=""
+                                    onClick={() => this.onDelComment(comment.id)}
+                                >
+                                    Delete
+                                </button>
 
-                            <button 
-                                className=""
-                                onClick={() => this.onVoteComment(comment.id, "upVote")}
-                            >
-                                upVote
-                            </button>
+                                <button 
+                                    className=""
+                                    onClick={() => this.onVoteComment(comment.id, "upVote")}
+                                >
+                                    upVote
+                                </button>
 
-                            <button 
-                                className=""
-                                onClick={() => this.onVoteComment(comment.id, "downVote")}
-                            >
-                                downVote
-                            </button>
-                        </li>
-                ))}
-                </ul>
+                                <button 
+                                    className=""
+                                    onClick={() => this.onVoteComment(comment.id, "downVote")}
+                                >
+                                    downVote
+                                </button>
+                            </li>
+                        ) : null )
+            }
+            </ul>
 
 
             <Modal
@@ -222,10 +223,11 @@ class CommentList extends Component{
 
 
 const mapStateToProps = (state, ownProps) => {
-  const {comments} = state
-  return {
-    'comments': comments.items,
-    'orderBy': comments.orderBy}
+    const {comments} = state
+    return {
+        'comments': Object.keys(comments.byId).map(id=> comments.byId[id]),
+        'orderBy': comments.orderBy
+    }
 }
 
 export default connect(

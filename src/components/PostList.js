@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Modal from 'react-modal'
 import Picker from './Picker'
@@ -117,28 +116,30 @@ class PostList extends Component {
         return (
             <div>
                 {showHeader
-                ?(<div className="list-header">
-                    <button className="fr"
-                        onClick={this.openAddPost}>
-                        Add Post
-                    </button>
-                    <span>Order By: </span>
-                    <Picker value = {orderBy} 
-                            options={sortOptions}
-                            onChange={this.onSortPosts} 
-                    />
-                </div>)
+                ?   (<div className="list-header">
+                        <button className="fr"
+                            onClick={this.openAddPost}>
+                            Add Post
+                        </button>
+                        <span>Order By: </span>
+                        <Picker value = {orderBy} 
+                                options={sortOptions}
+                                onChange={this.onSortPosts} 
+                        />
+                    </div>)
                 :null
                 }
                 <ul className="list">
                 {
-                    posts.map(post => (
-                        <PostDetail post={post}
+                    posts.map(post => post?(
+                        <PostDetail key={post.id} 
+                                    post={post}
                                     onDelPost={this.onDelPost}
-                                    onEditPost={this.onEditPost}
+                                    openEditPost={this.openEditPost}
                                     onVotePost={this.onVotePost} 
+                                    showBody={!showHeader}
                         />
-                    ))
+                    ) : null)
                 }
                 </ul>
                 <Modal
@@ -202,12 +203,12 @@ class PostList extends Component {
 }
 // export default PostList
 const mapStateToProps = state => {
-  const {posts, categories, selectCategory} = state
-  return {
-    selectCategory, 
-    categories, 
-    //'posts': posts.items,
-    'orderBy': posts.orderBy}
+    const {categories, posts, selectCategory} = state
+    return {
+        selectCategory, 
+        categories, 
+        'orderBy': posts.orderBy
+    }
 }
 
 export default connect(

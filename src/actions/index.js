@@ -98,7 +98,7 @@ export const fetchPosts = category => (dispatch) => {
 }
 
 export const isNeedToFetchAllPosts = () => (dispatch, getState) => {
-	if(!getState().posts.items.length ){
+	if(Object.keys(getState().posts.byId).length === 0 ){
 		return dispatch(fetchAllPosts())
 	}else{
 		return Promise.resolve()

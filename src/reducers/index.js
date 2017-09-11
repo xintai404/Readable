@@ -38,83 +38,149 @@ function categories(state=[], action){
 
 const initComments ={
 	orderBy: '',
-	items: []
+	byId:{},
 }
 
 const initPosts = {
 	orderBy: '',
-	items: []
+	byId:{},
 }   
 
+// const initComment = {
+// 	id: null,
+// 	parentId: null,
+//     timestamp: null,
+//     title: null,
+//     body: null,
+//     author: null,
+//     voteScore: null,
+//     deleted: null,
+// }
+
+// const initPost = {
+// 	id: null,
+//     timestamp: null,
+//     title: null,
+//     body: null,
+//     author: null,
+//     category: null,
+//     voteScore: null,
+//     deleted: null,
+//     comments: []
+// }
+function comment(state={}, action){
+	switch(action.type){
+		case EDIT_COMMENT:
+			return {
+				...state,
+				...action.comment
+			}
+		
+
+		case VOTE_COMMENT:
+			return {
+				...state,
+				voteScore: state.voteScore + (action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0)
+			}
+
+		default:
+			return state
+	}
+}
+function post(state={}, action){
+	switch(action.type){
+		case EDIT_POST:
+			return {
+				...state,
+				...action.post
+			}
+		
+
+		case VOTE_POST:
+			return {
+				...state,
+				voteScore: state.voteScore + (action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0)
+			}
+		 
+
+		default:
+			return state
+	}
+}
 
 function posts(state=initPosts, action){
-	let arr, order, idx
+	let allIds, byId
 	switch(action.type){
 		case RECEIVE_POSTS:
 			return {
 				...state,
-				items: action.posts.filter(post => !post.deleted)
+				byId: action.posts.reduce((obj, post)=>{
+					obj[post.id] = post
+					return obj
+				},{})
 			}
 
 		case ADD_POST:
 			return {
 				...state,
-				items: state.items.concat([action.post])
+				byId:{
+					...state.byId,
+					[action.post.id]: action.post
+				}
+
 			}
 
 		case EDIT_POST:
-			arr = state.items.slice()
-			arr = arr.map(post => {
-				if(post.id === action.post.id){
-					return action.post
-				}else{
-					return post
-				}
-			})
 			return {
 				...state,
-				items: arr
+				byId:{
+					...state.byId,
+					[action.post.id]: post(state.byId[action.post.id], action)
+				}
 			}
 
 		case DEL_POST:
-			arr = state.items.slice()
-			idx = arr.findIndex((post) => post.id === action.id)
-			arr.splice(idx, 1)
 			return {
 				...state,
-				items: arr
+				byId:{
+					...state.byId,
+					[action.id]: null,
+				}
 			}
 
 		case VOTE_POST:
-			arr = state.items.slice()
-			arr = arr.map(post =>{
-				if(post.id === action.id){
-					post.voteScore += action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0
-				}
-				return post
-			})
 			return {
-				...state,
-				items: arr
+				...state,   
+				byId:{
+					...state.byId,
+					[action.id]: post(state.byId[action.id], action)
+				}
 			}
 
 		case SORT_POSTS:
-			order = action.order
-			arr = state.items.slice()
-			arr.sort((a,b) => {
-				return b[order] - a[order]
+			allIds = Object.keys(state.byId)
+			allIds.sort((a,b) => {
+				return state.byId[b][action.order] - state.byId[a][action.order]
 			})
 			return {
-				orderBy: order,
-				items: arr
+				...state,
+				orderBy: action.order,
+				byId: allIds.reduce((obj, id)=>{
+					obj[id] = state.byId[id]
+					return obj
+				},{})
 			}
 
 
 		case SELECT_CATEGORY:
-			arr = state.items.slice()
+			byId = Object.assign({}, state.byId)
+			Object.keys(byId).forEach(id=> {
+				if(byId[id].category !== action.selectCategory)
+					delete byId[id]
+			})
 			return {
 				...state,
-				items: arr.filter(post=> post.category === action.selectCategory)
+				byId: byId
 			}
 
 		default:
@@ -123,74 +189,67 @@ function posts(state=initPosts, action){
 }
 
 function comments(state=initComments, action){
-	let arr, order, idx
+	let allIds
 	switch(action.type){
 		case RECEIVE_COMMENTS:
 			return {
 				...state,
-				items: action.comments.filter(comment => !comment.deleted)
+				byId: action.comments.reduce((obj, comment)=>{
+					obj[comment.id] = comment
+					return obj
+				},{})
 			}
 
 		case ADD_COMMENT:
 			return {
 				...state,
-				items: state.items.concat([action.comment])
+				byId:{
+					...state.byId,
+					[action.comment.id]: action.comment
+				}
+
 			}
 
 		case EDIT_COMMENT:
-			arr = state.items.slice()
-			arr = arr.map(comment => {
-				if(comment.id === action.comment.id){
-					return action.comment
-				}else{
-					return comment
-				}
-			})
 			return {
 				...state,
-				items: arr
+				byId:{
+					...state.byId,
+					[action.comment.id]: comment(state.byId[action.comment.id], action)
+				}
 			}
 
 		case DEL_COMMENT:
-			arr = state.items.slice()
-			idx = arr.findIndex((comment) => comment.id === action.id)
-			arr.splice(idx, 1)
 			return {
 				...state,
-				items: arr
+				byId:{
+					...state.byId,
+					[action.id]: null,
+				}
 			}
 
 		case VOTE_COMMENT:
-			arr = state.items.slice()
-			arr = arr.map(comment =>{
-				if(comment.id === action.id){
-					comment.voteScore += action.vote==='upVote'? 1: action.vote==='downVote'?-1 : 0
-				}
-				return comment
-			})
 			return {
 				...state,
-				items: arr
+				byId:{
+					...state.byId,
+					[action.id]: comment(state.byId[action.id], action)
+				}
 			}
 
 		case SORT_COMMENTS:
-			order = action.order
-			arr = state.items.slice()
-			arr.sort((a,b) => {
-				return b[order] - a[order]
+			allIds = Object.keys(state.byId)
+			allIds.sort((a,b) => {
+				return state.byId[b][action.order] - state.byId[a][action.order]
 			})
 			return {
-				orderBy: order,
-				items: arr
+				...state,
+				orderBy: action.order,
+				byId: allIds.reduce((obj, id)=>{
+					obj[id] = state.byId[id]
+					return obj
+				},{})
 			}
-
-
-		// case SELECT_CATEGORY:
-		// 	arr = state.items.slice()
-		// 	return {
-		// 		...state,
-		// 		items: arr.filter(comment=> comment.category === action.selectCategory)
-		// 	}
 
 		default:
 			return state

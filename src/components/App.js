@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import { fetchAllPosts, 
-        fetchCategories,
+import { 
+    fetchAllPosts, 
+    fetchCategories,
 } from '../actions'
 import PostList from './PostList'
 
@@ -52,7 +53,7 @@ const mapStateToProps = state => {
     const {categories, posts} = state
     return {
         categories, 
-        posts: posts.items
+        posts: Object.keys(posts.byId).map(id=> posts.byId[id])
     }
 }
 
