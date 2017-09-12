@@ -39,7 +39,7 @@ const PostDetail = ({post, onDelPost, openEditPost, onVotePost, showBody }) => (
             </button>
             <button 
                 className=""
-                onClick={() => onDelPost(post.id)}
+                onClick={() => onDelPost(post)}
             >
                 Delete
             </button>

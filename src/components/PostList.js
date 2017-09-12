@@ -65,7 +65,8 @@ class PostList extends Component {
             author: this.form.author.value,
             category: this.form.category.value,
             voteScore: 1,
-            deleted: false
+            deleted: false,
+            parentDeleted: false
         }
 
         this.dispatch(asyncAddPost(newPost))
@@ -86,8 +87,8 @@ class PostList extends Component {
         this.dispatch(asyncEditPost(post))
     } 
 
-    onDelPost(id){
-        this.dispatch(asyncDelPost(id))
+    onDelPost(post){
+        this.dispatch(asyncDelPost(post))
     } 
 
     onVotePost(id, vote){

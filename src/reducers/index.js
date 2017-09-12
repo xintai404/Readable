@@ -38,12 +38,12 @@ function categories(state=[], action){
 }
 
 const initComments ={
-	orderBy: '',
+	orderBy: 'voteScore',
 	byId:{},
 }
 
 const initPosts = {
-	orderBy: '',
+	orderBy: 'voteScore',
 	byId:{},
 }   
 
@@ -67,6 +67,12 @@ function comment(state={}, action){
 }
 function post(state={}, action){
 	switch(action.type){
+		case ADD_POST:
+			return {
+				...state,
+				...action.post,
+				comments:[]
+			}
 		case EDIT_POST:
 			return {
 				...state,
@@ -91,9 +97,12 @@ function post(state={}, action){
 			}
 
 		case DEL_COMMENT:
+			let comments = state.comments.slice()
+			let idx = comments.indexOf(action.id)
+			comments.splice(idx,1)
 			return {
 				...state,
-				comments: state.comments.filter(id => id!== action.id)
+				comments: comments
 			}
 		default:
 			return state
@@ -126,7 +135,7 @@ function posts(state=initPosts, action){
 				...state,
 				byId:{
 					...state.byId,
-					[action.post.id]: action.post
+					[action.post.id]: post(state.byId[action.post.id], action)
 				}
 
 			}
@@ -141,12 +150,11 @@ function posts(state=initPosts, action){
 			}
 
 		case DEL_POST:
+			byId = Object.assign({}, state.byId)
+			delete(byId[action.id])
 			return {
 				...state,
-				byId:{
-					...state.byId,
-					[action.id]: null,
-				}
+				byId: byId
 			}
 
 		case VOTE_POST:
@@ -208,7 +216,7 @@ function posts(state=initPosts, action){
 }
 
 function comments(state=initComments, action){
-	let allIds
+	let allIds, byId
 	switch(action.type){
 		case RECEIVE_COMMENTS:
 			return {
@@ -239,12 +247,11 @@ function comments(state=initComments, action){
 			}
 
 		case DEL_COMMENT:
+			byId = Object.assign({}, state.byId)
+			delete byId[action.id]
 			return {
 				...state,
-				byId:{
-					...state.byId,
-					[action.id]: null,
-				}
+				byId: byId
 			}
 
 		case VOTE_COMMENT:

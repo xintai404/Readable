@@ -9,7 +9,8 @@ import App from './components/App';
 import Category from './components/CategoryView'
 import PostView from './components/PostView'
 import { Provider } from 'react-redux'
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

@@ -95,16 +95,24 @@ export const votePost = (id, vote) => {
 }
 
 export const fetchAllPosts = () => (dispatch) => {
+	let allPosts = []
+
 	return api.getAllPosts()
-			.then(data => {
-				return dispatch(receivePosts( data))
-			})
-			.then((data) => {
-				data.posts.forEach(post=>{
+			.then(posts => {
+				allPosts = posts.map( post => 
 					api.getCommentsByPost(post.id)
-					.then(comments => dispatch(receiveCommentsByPost(post.id, comments))) 
+					.then(comments => {
+						post.comments = comments.map(comment => comment.id)
+						return post
+					})
+
+				)
+				return Promise.all(allPosts)
+				.then(posts=> {
+					return dispatch(receivePosts(posts))
 				})
-				dispatch(orderPosts('voteScore'))
+				.then(() => dispatch(orderPosts('voteScore')))
+
 			})
 }
 
@@ -143,10 +151,15 @@ export const asyncAddPost = post => (dispatch, getState) => {
 }
 
 
-export const asyncDelPost = id => (dispatch) => {
-	console.log('del ',id)
-	return api.delPost(id)
-			.then(() => dispatch(delPost(id)))
+export const asyncDelPost = post => (dispatch) => {
+	return Promise.all(post.comments.map(id => {
+		return dispatch(asyncDelComment(id, post.id))
+	}))
+	.then(()=> 
+		api.delPost(post.id)
+			.then(() => dispatch(delPost(post.id)))
+	
+	)
 }
 
 export const asyncEditPost = post => (dispatch) => {
@@ -213,7 +226,6 @@ export const asyncAddComment = comment => (dispatch, getState) => {
 			.then(() => dispatch(addComment(comment)))
 			.then(()=> dispatch(orderComments(getState().comments.orderBy)))
 }
-
 
 export const asyncDelComment = (id,parentId) => (dispatch) => {
 	return api.delComment(id)

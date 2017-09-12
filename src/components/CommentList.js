@@ -33,6 +33,11 @@ class CommentList extends Component{
         this.onEditComment = this.onEditComment.bind(this)
         this.onVoteComment = this.onVoteComment.bind(this)
     }
+    componentWillReceiveProps(nextProps) {
+    // if (nextProps.comments.length !== this.props.comments.length) {
+    //     console.log('comments length change')
+    // }
+  }
 
     onSortComments(order){
         this.dispatch(orderComments(order))

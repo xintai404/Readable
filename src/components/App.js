@@ -7,6 +7,7 @@ import {
 } from '../actions'
 import PostList from './PostList'
 
+
 class App extends Component {
     constructor(props){
         super()
