@@ -4,8 +4,11 @@ import {Link} from 'react-router-dom'
 import { 
     fetchComments,
     orderComments, 
+} from '../actions/commentActions'
+
+import {
     isNeedToFetchAllPosts
-} from '../actions'
+} from '../actions/postActions'
 
 import CommentList from './CommentList'
 import PostList from './PostList'

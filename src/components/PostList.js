@@ -9,7 +9,7 @@ import {
         asyncDelPost,
         asyncEditPost,
         asyncVotePost,
-} from '../actions'
+} from '../actions/postActions'
 
 import {getUID} from '../utils/helper'
 

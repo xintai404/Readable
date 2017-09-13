@@ -5,7 +5,7 @@ import {
     selectCategory,
     isNeedToFetchAllPosts,
     isNeedToFetchCategories
-} from '../actions'
+} from '../actions/postActions'
 
 import PostList from './PostList'
 
@@ -43,8 +43,7 @@ class Category extends Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-    const {posts } = state
+const mapStateToProps = ({posts}, ownProps) => {
     return {
         selectCategory: ownProps.match.params.selectCategory,
         posts: Object.keys(posts.byId).map(id=> posts.byId[id])

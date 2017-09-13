@@ -1,12 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { 
-    orderComments, 
-    asyncAddComment,
-    asyncDelComment,
-    asyncEditComment,
-    asyncVoteComment,
-} from '../actions'
+import * as commentActions from '../actions/commentActions'
 
 import Modal from 'react-modal'
 import Picker from './Picker'
@@ -33,14 +27,9 @@ class CommentList extends Component{
         this.onEditComment = this.onEditComment.bind(this)
         this.onVoteComment = this.onVoteComment.bind(this)
     }
-    componentWillReceiveProps(nextProps) {
-    // if (nextProps.comments.length !== this.props.comments.length) {
-    //     console.log('comments length change')
-    // }
-  }
 
     onSortComments(order){
-        this.dispatch(orderComments(order))
+        this.props.orderComments(order)
     }
 
     openAddComment(){
@@ -72,7 +61,7 @@ class CommentList extends Component{
         parentDeleted: false
     }
     
-    this.dispatch(asyncAddComment(newComment))
+    this.props.asyncAddComment(newComment)
   }
 
   onEditComment(e){
@@ -87,15 +76,15 @@ class CommentList extends Component{
         comment: {},
         editCommentModalOpen: false
     })
-    this.dispatch(asyncEditComment(comment))
+    this.props.asyncEditComment(comment)
   }
 
   onDelComment(id, parentId){
-    this.dispatch(asyncDelComment(id, parentId))
+    this.props.asyncDelComment(id, parentId)
   }
 
   onVoteComment(id, vote){
-    this.dispatch(asyncVoteComment(id, vote))
+    this.props.asyncVoteComment(id, vote)
   }
   closeAddComment(){
     this.setState({
@@ -236,5 +225,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  commentActions
 )(CommentList);

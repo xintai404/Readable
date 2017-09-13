@@ -4,10 +4,10 @@ import {connect} from 'react-redux'
 import { 
     fetchAllPosts, 
     fetchCategories,
-} from '../actions'
+} from '../actions/postActions'
 import PostList from './PostList'
 
-
+     
 class App extends Component {
     constructor(props){
         super()
@@ -15,8 +15,8 @@ class App extends Component {
     }
 
     componentDidMount(){
-        this.dispatch(fetchCategories())   
-        this.dispatch(fetchAllPosts())
+        this.props.fetchCategories()
+        this.props.fetchAllPosts()
     }
 
     render() {
@@ -33,7 +33,7 @@ class App extends Component {
                         ))}
                     </ul>
                 </div>
-
+                
                 <h3>Posts</h3>
 
                 <PostList  
@@ -41,7 +41,6 @@ class App extends Component {
                     showHeader={true}
                 />
 
-  
             </div>
         )
     }
@@ -49,8 +48,7 @@ class App extends Component {
 }
 
 
-const mapStateToProps = state => {
-    const {categories, posts} = state
+const mapStateToProps = ({categories, posts}) => {
     return {
         categories, 
         posts: Object.keys(posts.byId).map(id=> posts.byId[id])
@@ -58,5 +56,6 @@ const mapStateToProps = state => {
 }
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    {fetchCategories, fetchAllPosts}
 )(App);

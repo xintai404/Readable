@@ -1,21 +1,18 @@
 import * as api from '../utils/api'
+import {
+	RECEIVE_POSTS,
+	SORT_POSTS ,
+	ADD_POST ,
+	DEL_POST ,
+	EDIT_POST,
+	VOTE_POST,
+	SELECT_CATEGORY ,
+    SET_CATEGORIES, 
+}from './type'
 
-export const SELECT_CATEGORY ='SELECT_CATEGORY'
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const SET_CATEGORIES = 'SET_CATEGORIES'
-export const SORT_POSTS = 'SORT_POSTS'
-export const ADD_POST = 'ADD_POST'
-export const DEL_POST = 'DEL_POST'
-export const EDIT_POST='EDIT_POST'
-export const VOTE_POST= 'VOTE_POST'
-export const RECEIVE_COMMENTS_BY_POST = 'RECEIVE_COMMENTS_BY_POST'
-
-export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
-export const SORT_COMMENTS = 'SORT_COMMENTS'
-export const ADD_COMMENT = 'ADD_COMMENT'
-export const DEL_COMMENT = 'DEL_COMMENT'
-export const EDIT_COMMENT ='EDIT_COMMENT'
-export const VOTE_COMMENT = 'VOTE_COMMENT'
+import {
+	asyncDelComment
+}from './commentActions'
 
 export const selectCategory = selectCategory => {
 	return {
@@ -47,14 +44,6 @@ export const receivePosts = (posts) => {
 	return {
 		type: RECEIVE_POSTS,
 		posts
-	}
-}
-
-export const receiveCommentsByPost = (parentId, comments) => {
-	return {
-		type: RECEIVE_COMMENTS_BY_POST,
-		parentId,
-		comments
 	}
 }
 
@@ -132,7 +121,7 @@ export const isNeedToFetchAllPosts = () => (dispatch, getState) => {
 
 export const isNeedToFetchCategories = () => (dispatch, getState) => {
 	if(getState().categories.length === 0){
-		return dispatch(fetch)
+		return dispatch(fetchCategories())
 	}else{
 		return Promise.resolve()
 	}
@@ -166,77 +155,3 @@ export const asyncEditPost = post => (dispatch) => {
 	return api.editPost(post)
 			.then(() => dispatch(editPost(post)))
 }
-
-export const receiveComments = (comments) => {
-	return {
-		type: RECEIVE_COMMENTS,
-		comments
-	}
-}
-export const orderComments = order => {
-	return {
-		type: SORT_COMMENTS,
-		order
-	}
-}
-
-export const addComment = comment => {
-	return {
-		type: ADD_COMMENT,
-		comment
-	}
-}
-
-export const delComment = (id, parentId) => {
-	return {
-		type: DEL_COMMENT,
-		id,
-		parentId
-	}
-}
-
-export const editComment = comment =>{
-	return {
-		type: EDIT_COMMENT,
-		comment
-	}
-}
-
-export const voteComment = (id, vote) => {
-	return {
-		type: VOTE_COMMENT,
-		id,
-		vote
-	}
-}
-
-export const fetchComments = postId => (dispatch) => {
-	return api.getCommentsByPost(postId)
-		.then(data => dispatch(receiveComments( data)))
-	
-}
-export const asyncVoteComment = (id, vote) => (dispatch, getState) =>{
-	return api.voteComment(id, vote)
-			.then(() => dispatch(voteComment(id, vote)))
-			.then(() => dispatch(orderComments(getState().comments.orderBy)))
-}
-
-export const asyncAddComment = comment => (dispatch, getState) => {
-	return api.postComment(comment)
-			.then(() => dispatch(addComment(comment)))
-			.then(()=> dispatch(orderComments(getState().comments.orderBy)))
-}
-
-export const asyncDelComment = (id,parentId) => (dispatch) => {
-	return api.delComment(id)
-			.then(() => dispatch(delComment(id, parentId)))
-}
-
-export const asyncEditComment = comment => (dispatch) => {
-	return api.editComment(comment)
-			.then(() => dispatch(editComment(comment)))
-}
-
-
-
-
