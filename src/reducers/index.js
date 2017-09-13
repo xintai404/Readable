@@ -181,16 +181,16 @@ function posts(state=initPosts, action){
 			}
 
 
-		case SELECT_CATEGORY:
-			byId = Object.assign({}, state.byId)
-			Object.keys(byId).forEach(id=> {
-				if(byId[id].category !== action.selectCategory)
-					delete byId[id]
-			})
-			return {
-				...state,
-				byId: byId
-			}
+		// case SELECT_CATEGORY:
+		// 	byId = Object.assign({}, state.byId)
+		// 	Object.keys(byId).forEach(id=> {
+		// 		if(byId[id].category !== action.selectCategory)
+		// 			delete byId[id]
+		// 	})
+		// 	return {
+		// 		...state,
+		// 		byId: byId
+		// 	}
 
 		case ADD_COMMENT:
 			return {

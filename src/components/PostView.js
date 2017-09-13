@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import { 
     fetchComments,
     orderComments, 
@@ -8,6 +9,7 @@ import {
 
 import CommentList from './CommentList'
 import PostList from './PostList'
+import NotFound from './NotFound'
 
 class PostView extends Component {
 
@@ -23,16 +25,26 @@ class PostView extends Component {
     }
 
     render() {
-        const {postId, posts} = this.props;
+        const {postId, posts, selectCategory} = this.props;
         return (
             <div className="container">
-                
-                <h3>Post</h3>
-                <PostList posts={posts} 
-                    showBody={true}
-                />
-                <h3>Comments</h3>
-                <CommentList postId={postId}/>
+                {posts.length
+                ? (
+                    <div>
+                        <h3>Post</h3>
+                        <PostList posts={posts} 
+                            showBody={true}
+                        />
+                        <h3>Comments</h3>
+                        <CommentList postId={postId}/>
+                        Link to: &nbsp;
+                        <Link to={`/`} className="link">Main Page</Link> 
+                        &nbsp;/&nbsp;
+                        <Link to={`/${selectCategory}`} className="link" style={{"paddingLeft":"0px"}}>{selectCategory} </Link>
+                    </div>
+                 )
+                : (<NotFound />)
+                }
             </div>
         )
     }
@@ -42,9 +54,11 @@ class PostView extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {posts} = state
     const postId = ownProps.match.params.postId
+    const selectCategory = ownProps.match.params.selectCategory
     return {
         postId,
-        posts: [posts.byId[postId]]
+        selectCategory,
+        posts: posts.byId[postId] ? [posts.byId[postId]] : []
     }
 }
 

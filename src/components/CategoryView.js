@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import { 
     selectCategory,
@@ -23,6 +24,7 @@ class Category extends Component {
 
     render() {
         const {selectCategory, posts} = this.props;
+        const filteredPosts = posts.filter(post => post.category === selectCategory)
         return (
             <div className="container">
                 <h3>{selectCategory}</h3>
@@ -31,9 +33,10 @@ class Category extends Component {
                 <h3>Posts</h3>
 
                 <PostList 
-                    posts={posts}
+                    posts={filteredPosts}
                     showHeader={true}
                 />
+                Link to: <Link to={`/`} className="link">Main Page</Link>
             </div>
         )
     }

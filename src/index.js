@@ -17,13 +17,15 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
 	<Provider store={store}>
-		<BrowserRouter>
-			<div>
-				<Route exact path="/" component={App} />
-				<Route exact path="/:selectCategory" component={Category} />
-				<Route exact path="/:selectCategory/:postId" component={PostView} />
-			</div>
-		</BrowserRouter>
+		<MuiThemeProvider>
+			<BrowserRouter>
+				<div>
+					<Route exact path="/" component={App} />
+					<Route exact path="/:selectCategory" component={Category} />
+					<Route exact path="/:selectCategory/:postId" component={PostView} />
+				</div>
+			</BrowserRouter>
+		</MuiThemeProvider>
 	</Provider>,
 	document.getElementById('root'));
 registerServiceWorker();
