@@ -97,7 +97,8 @@ export const fetchAllPosts = () => (dispatch) => {
 
 				)
 				return Promise.all(allPosts)
-				.then(posts=> {
+				.then(posts => {
+					posts = posts.filter(post => !post.deleted)
 					return dispatch(receivePosts(posts))
 				})
 				.then(() => dispatch(orderPosts('voteScore')))

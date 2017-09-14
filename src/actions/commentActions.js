@@ -54,7 +54,10 @@ export const voteComment = (id, vote) => {
 
 export const fetchComments = postId => (dispatch) => {
 	return api.getCommentsByPost(postId)
-		.then(data => dispatch(receiveComments( data)))
+		.then(comments => {
+			comments = comments.filter(comment => !comment.deleted && !comment.parentDeleted)
+			return dispatch(receiveComments( comments))
+		})
 	
 }
 export const asyncVoteComment = (id, vote) => (dispatch, getState) =>{
