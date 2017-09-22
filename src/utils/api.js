@@ -1,4 +1,6 @@
-const api = "http://localhost:3001"
+import fetch from 'isomorphic-fetch'     
+
+const api = "http://localhost:3001"     
 
 let token = localStorage.token;
 if(!token){
