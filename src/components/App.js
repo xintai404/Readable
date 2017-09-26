@@ -8,7 +8,7 @@ import {
 import PostList from './PostList'
 
      
-class App extends Component {
+export class App extends Component {
     constructor(props){
         super()
         this.dispatch = props.dispatch

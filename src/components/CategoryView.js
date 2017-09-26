@@ -9,7 +9,7 @@ import {
 
 import PostList from './PostList'
 
-class Category extends Component {
+export class Category extends Component {
 
     constructor(props){
         super()
