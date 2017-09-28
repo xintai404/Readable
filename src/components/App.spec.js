@@ -10,7 +10,7 @@ function setup(){
 		categories: ['react', 'redux'],
 		posts: {
 			byId:{
-				p1:{
+				p1:{     
 					id: 'p1',
 					voteScore:1
 				}
@@ -51,7 +51,7 @@ describe('<App />', () => {
 		const wrapper = shallow(<ConnectedApp store={store} />)
 		expect(wrapper.length).toEqual(1)
 		expect(wrapper.find(App).length).toBe(1)
-		expect(wrapper.prop('categories').length).toBe(2)
-		expect(wrapper.prop('posts').length).toBe(1)
+		expect(wrapper.find(App).prop('categories').length).toBe(2)
+		expect(wrapper.find(App).prop('posts').length).toBe(1)
 	})
 })

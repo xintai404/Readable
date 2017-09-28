@@ -2,7 +2,6 @@ import * as types from './type'
 import * as actions from './postActions'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-
 import nock from 'nock'
 
 const middlewares = [thunk]
