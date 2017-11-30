@@ -3,7 +3,7 @@ import * as actions from './commentActions'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
-
+    
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
@@ -41,7 +41,7 @@ describe('comment actions', () => {
 		const store = mockStore({})
 		
 		return store.dispatch(actions.fetchComments('p1'))
-			.then(() => {
+			.then(() => {    
 				expect(store.getActions()).toEqual(expectedAction)
 		})
 	})
